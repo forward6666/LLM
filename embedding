@@ -1,0 +1,17 @@
+import os
+from dotenv import find_dotenv,load_dotenv
+from openai import OpenAI
+
+load_dotenv(find_dotenv())
+
+
+def openai_embedding(text,model):
+    api_key = os.environ['OPENAI_API_KEY']
+    client = OpenAI(api_key=api_key)
+
+    response = client.embeddings.create(input=text,model=model)
+    return response
+
+response = openai_embedding(text='要生成embedding的输入文本，字符串形式',model = "text-embedding-3-small")
+print(f'embedding的长度：{len(response.data[0].embedding)}')
+print(f'embedding的前20个为：{response.data[0].embedding[:20]}')
